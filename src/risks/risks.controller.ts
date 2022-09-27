@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Query, Put } from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, Delete, Query, Put, UseGuards } from '@nestjs/common'
 import { RisksService } from './risks.service'
 import { CreateRiskDto } from './dto/create-risk.dto'
 import { UpdateRiskDto } from './dto/update-risk.dto'
@@ -6,8 +6,10 @@ import { PaginationRequestDto } from '../core/pagination/dto/pagination-request.
 import { PaginationResponseDto } from '../core/pagination/dto/pagination-response-dto'
 import { CreateEntityResponseDto } from '../core/dto/create-entity-response.dto'
 import { RiskDto } from './dto/risk.dto'
+import { AuthJwtGuard } from '../auth/guards/auth-jwt.guard'
 
 @Controller('risks')
+@UseGuards(AuthJwtGuard)
 export class RisksController {
     constructor(private readonly risksService: RisksService) {}
 

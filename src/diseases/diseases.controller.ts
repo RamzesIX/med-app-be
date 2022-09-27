@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Query, Put } from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, Delete, Query, Put, UseGuards } from '@nestjs/common'
 import { DiseasesService } from './diseases.service'
 import { CreateDiseaseDto } from './dto/create-disease.dto'
 import { UpdateDiseaseDto } from './dto/update-disease.dto'
@@ -9,8 +9,10 @@ import { DiseaseDto } from './dto/disease.dto'
 import { DiseaseDetailsDto } from './dto/disease-details.dto'
 import { RiskDto } from '../risks/dto/risk.dto'
 import { SymptomDto } from '../symptoms/dto/symptom.dto'
+import { AuthJwtGuard } from '../auth/guards/auth-jwt.guard'
 
 @Controller('diseases')
+@UseGuards(AuthJwtGuard)
 export class DiseasesController {
     constructor(private readonly diseasesService: DiseasesService) {}
 
