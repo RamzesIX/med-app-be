@@ -4,7 +4,7 @@ import { IRisk, RiskPayload } from './risks.types'
 
 export interface IRisksService {
     create(payload: RiskPayload): Promise<CreateEntityResponse>
-    findAll(): Promise<IPaginationResponse<IRisk>>
+    findAll(offset: number, limit: number): Promise<IPaginationResponse<IRisk>>
     findOne(id: string): Promise<IRisk>
     update(id: string, payload: RiskPayload): Promise<void>
     remove(id: string): Promise<void>

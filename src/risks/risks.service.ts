@@ -26,7 +26,7 @@ export class RisksService implements IRisksService {
         return { id }
     }
 
-    public async findAll(offset?: number, limit?: number): Promise<IPaginationResponse<IRisk>> {
+    public async findAll(offset: number, limit: number): Promise<IPaginationResponse<IRisk>> {
         console.debug(`RisksService.findAll, offset:${offset}, limit:${limit}`)
         const [data, total] = await this.risksRepository.findAndCount({
             skip: offset,

@@ -9,6 +9,8 @@ import { Disease } from './entities/disease.entity'
 import { DiseasePayload, IDisease, IDiseaseDetails } from './diseases.types'
 import { RisksService } from '../risks/risks.service'
 import { SymptomsService } from '../symptoms/symptoms.service'
+import { IRisk } from '../risks/risks.types'
+import { ISymptom } from '../symptoms/symptoms.types'
 
 @Injectable()
 export class DiseasesService implements IDiseasesService {
@@ -37,7 +39,7 @@ export class DiseasesService implements IDiseasesService {
         return { id }
     }
 
-    public async findAll(offset?: number, limit?: number): Promise<IPaginationResponse<IDisease>> {
+    public async findAll(offset: number, limit: number): Promise<IPaginationResponse<IDisease>> {
         console.debug(`DiseasesService.findAll, offset:${offset}, limit:${limit}`)
         const [data, total] = await this.diseasesRepository.findAndCount({
             skip: offset,
@@ -48,6 +50,34 @@ export class DiseasesService implements IDiseasesService {
         console.debug(`DiseasesService.findAll`, data, total)
 
         return buildPaginationResponse(data, total, offset, limit)
+    }
+
+    public async findRisks(diseaseId: string): Promise<IRisk[]> {
+        console.debug(`DiseasesService.findRisks Disease Id: ${diseaseId}`)
+        const { risks } = await this.diseasesRepository.findOneOrFail({
+            where: { id: diseaseId },
+            relations: {
+                risks: true,
+            },
+            select: {
+                risks: true,
+            },
+        })
+        return risks
+    }
+
+    public async findSymptoms(diseaseId: string): Promise<ISymptom[]> {
+        console.debug(`DiseasesService.findSymptoms Disease Id: ${diseaseId}`)
+        const { symptoms } = await this.diseasesRepository.findOneOrFail({
+            where: { id: diseaseId },
+            relations: {
+                symptoms: true,
+            },
+            select: {
+                symptoms: true,
+            },
+        })
+        return symptoms
     }
 
     public async findOne(id: string): Promise<IDiseaseDetails> {

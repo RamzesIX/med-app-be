@@ -1,4 +1,4 @@
 import { PaginationResponseDto } from '../../core/pagination/dto/pagination-response-dto'
-import { Symptom } from '../entities/symptom.entity'
+import { SymptomDto } from './symptom.dto'
 
-export class GetSymptomsDto extends PaginationResponseDto<Symptom> {}
+export class GetSymptomsDto extends PaginationResponseDto<SymptomDto> {}

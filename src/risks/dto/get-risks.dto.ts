@@ -1,4 +1,4 @@
 import { PaginationResponseDto } from '../../core/pagination/dto/pagination-response-dto'
-import { Risk } from '../entities/risk.entity'
+import { RiskDto } from './risk.dto'
 
-export class GetRisksDto extends PaginationResponseDto<Risk> {}
+export class GetRisksDto extends PaginationResponseDto<RiskDto> {}

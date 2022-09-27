@@ -4,7 +4,7 @@ import { ISymptom, SymptomPayload } from './symptoms.types'
 
 export interface ISymptomsService {
     create(payload: SymptomPayload): Promise<CreateEntityResponse>
-    findAll(): Promise<IPaginationResponse<ISymptom>>
+    findAll(offset: number, limit: number): Promise<IPaginationResponse<ISymptom>>
     findOne(id: string): Promise<ISymptom>
     update(id: string, payload: SymptomPayload): Promise<void>
     remove(id: string): Promise<void>
