@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, Query } from '@nestjs/common'
+import { Controller, Get, Post, Body, Put, Param, Delete, Query, UseGuards } from '@nestjs/common'
 import { SymptomsService } from './symptoms.service'
 import { CreateSymptomDto } from './dto/create-symptom.dto'
 import { UpdateSymptomDto } from './dto/update-symptom.dto'
@@ -6,8 +6,10 @@ import { PaginationRequestDto } from '../core/pagination/dto/pagination-request.
 import { PaginationResponseDto } from '../core/pagination/dto/pagination-response-dto'
 import { CreateEntityResponseDto } from '../core/dto/create-entity-response.dto'
 import { SymptomDto } from './dto/symptom.dto'
+import { AuthJwtGuard } from '../auth/guards/auth-jwt.guard'
 
 @Controller('symptoms')
+@UseGuards(AuthJwtGuard)
 export class SymptomsController {
     constructor(private readonly symptomsService: SymptomsService) {}
 
