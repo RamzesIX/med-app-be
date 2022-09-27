@@ -4,6 +4,7 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { SymptomsModule } from './symptoms/symptoms.module'
 import { RisksModule } from './risks/risks.module'
+import { DiseasesModule } from './diseases/diseases.module'
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import { RisksModule } from './risks/risks.module'
         }),
         SymptomsModule,
         RisksModule,
+        DiseasesModule,
     ],
     controllers: [AppController],
     providers: [AppService],

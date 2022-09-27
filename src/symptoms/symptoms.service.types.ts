@@ -1,13 +1,12 @@
-import { CreateSymptomDto } from './dto/create-symptom.dto'
-import { Symptom } from './entities/symptom.entity'
-import { UpdateSymptomDto } from './dto/update-symptom.dto'
 import { IPaginationResponse } from '../core/pagination/pagination.types'
 import { CreateEntityResponse } from '../core/core.types'
+import { ISymptom, SymptomPayload } from './symptoms.types'
 
 export interface ISymptomsService {
-    create(createSymptomDto: CreateSymptomDto): Promise<CreateEntityResponse>
-    findAll(): Promise<IPaginationResponse<Symptom>>
-    findOne(id: string): Promise<Symptom>
-    update(id: string, updateSymptomDto: UpdateSymptomDto): Promise<void>
+    create(payload: SymptomPayload): Promise<CreateEntityResponse>
+    findAll(): Promise<IPaginationResponse<ISymptom>>
+    findOne(id: string): Promise<ISymptom>
+    update(id: string, payload: SymptomPayload): Promise<void>
     remove(id: string): Promise<void>
+    prepareSymptomsForSaving(symptoms: Array<SymptomPayload>): Promise<Array<ISymptom | SymptomPayload>>
 }

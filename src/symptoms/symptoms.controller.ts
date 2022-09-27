@@ -4,8 +4,8 @@ import { CreateSymptomDto } from './dto/create-symptom.dto'
 import { UpdateSymptomDto } from './dto/update-symptom.dto'
 import { PaginationRequestDto } from '../core/pagination/dto/pagination-request.dto'
 import { PaginationResponseDto } from '../core/pagination/dto/pagination-response-dto'
-import { Symptom } from './entities/symptom.entity'
 import { CreateEntityResponseDto } from '../core/dto/create-entity-response.dto'
+import { ISymptom } from './symptoms.types'
 
 @Controller('symptoms')
 export class SymptomsController {
@@ -17,12 +17,12 @@ export class SymptomsController {
     }
 
     @Get()
-    public findAll(@Query() { offset, limit }: PaginationRequestDto): Promise<PaginationResponseDto<Symptom>> {
+    public findAll(@Query() { offset, limit }: PaginationRequestDto): Promise<PaginationResponseDto<ISymptom>> {
         return this.symptomsService.findAll(Number(offset), Number(limit))
     }
 
     @Get(':id')
-    public findOne(@Param('id') id: string): Promise<Symptom> {
+    public findOne(@Param('id') id: string): Promise<ISymptom> {
         return this.symptomsService.findOne(id)
     }
 

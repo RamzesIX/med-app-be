@@ -8,5 +8,6 @@ import { Risk } from './entities/risk.entity'
     imports: [TypeOrmModule.forFeature([Risk])],
     controllers: [RisksController],
     providers: [RisksService],
+    exports: [RisksService],
 })
 export class RisksModule {}
