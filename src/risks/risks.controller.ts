@@ -5,7 +5,7 @@ import { UpdateRiskDto } from './dto/update-risk.dto'
 import { PaginationRequestDto } from '../core/pagination/dto/pagination-request.dto'
 import { PaginationResponseDto } from '../core/pagination/dto/pagination-response-dto'
 import { CreateEntityResponseDto } from '../core/dto/create-entity-response.dto'
-import { Risk } from './entities/risk.entity'
+import { IRisk } from './risks.types'
 
 @Controller('risks')
 export class RisksController {
@@ -17,12 +17,12 @@ export class RisksController {
     }
 
     @Get()
-    public findAll(@Query() { offset, limit }: PaginationRequestDto): Promise<PaginationResponseDto<Risk>> {
+    public findAll(@Query() { offset, limit }: PaginationRequestDto): Promise<PaginationResponseDto<IRisk>> {
         return this.risksService.findAll(Number(offset), Number(limit))
     }
 
     @Get(':id')
-    public findOne(@Param('id') id: string): Promise<Risk> {
+    public findOne(@Param('id') id: string): Promise<IRisk> {
         return this.risksService.findOne(id)
     }
 
