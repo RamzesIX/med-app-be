@@ -1,4 +1,4 @@
-export class CreateSymptomDto {
+export class CreateRiskDto {
     public name: string
     public description: string
 

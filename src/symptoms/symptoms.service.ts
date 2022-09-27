@@ -40,18 +40,24 @@ export class SymptomsService implements ISymptomsService {
     }
 
     public async findOne(id: string): Promise<Symptom> {
+        console.debug(`SymptomsService.findOne id: ${id}`)
         const symptom = await this.symptomRepository.findOneBy({ id })
         if (!symptom) {
             throw new EntityNotFoundError('Symptom')
         }
+        console.debug(`SymptomsService.findOne data: ${symptom}`)
         return symptom
     }
 
     public async update(id: string, { description, name }: UpdateSymptomDto): Promise<void> {
+        console.debug(`SymptomsService.update Id: ${id}, Description: ${description}, Name: ${name}`)
         await this.symptomRepository.update(id, { description, name })
+        console.debug(`SymptomsService.update Symptom ${id} has been updated.`)
     }
 
     public async remove(id: string): Promise<void> {
+        console.debug(`SymptomsService.remove Id: ${id}`)
         await this.symptomRepository.delete(id)
+        console.debug(`SymptomsService.remove Symptom: ${id} has been removed.`)
     }
 }
