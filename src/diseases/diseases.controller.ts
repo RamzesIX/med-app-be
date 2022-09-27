@@ -7,6 +7,8 @@ import { PaginationRequestDto } from '../core/pagination/dto/pagination-request.
 import { PaginationResponseDto } from '../core/pagination/dto/pagination-response-dto'
 import { DiseaseDto } from './dto/disease.dto'
 import { DiseaseDetailsDto } from './dto/disease-details.dto'
+import { RiskDto } from '../risks/dto/risk.dto'
+import { SymptomDto } from '../symptoms/dto/symptom.dto'
 
 @Controller('diseases')
 export class DiseasesController {
@@ -25,6 +27,16 @@ export class DiseasesController {
     @Get(':id')
     public findOne(@Param('id') id: string): Promise<DiseaseDetailsDto> {
         return this.diseasesService.findOne(id)
+    }
+
+    @Get(':id/risks')
+    public findRisks(@Param('id') id: string): Promise<RiskDto[]> {
+        return this.diseasesService.findRisks(id)
+    }
+
+    @Get(':id/symptoms')
+    public findSymptoms(@Param('id') id: string): Promise<SymptomDto[]> {
+        return this.diseasesService.findSymptoms(id)
     }
 
     @Put(':id')

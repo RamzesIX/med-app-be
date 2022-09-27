@@ -26,7 +26,7 @@ export class SymptomsService implements ISymptomsService {
         return { id }
     }
 
-    public async findAll(offset?: number, limit?: number): Promise<IPaginationResponse<ISymptom>> {
+    public async findAll(offset: number, limit: number): Promise<IPaginationResponse<ISymptom>> {
         console.debug(`SymptomsService.findAll, offset:${offset}, limit:${limit}`)
         const [data, total] = await this.symptomRepository.findAndCount({
             skip: offset,
