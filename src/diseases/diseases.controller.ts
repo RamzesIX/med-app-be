@@ -10,6 +10,8 @@ import { DiseaseDetailsDto } from './dto/disease-details.dto'
 import { RiskDto } from '../risks/dto/risk.dto'
 import { SymptomDto } from '../symptoms/dto/symptom.dto'
 import { AuthJwtGuard } from '../auth/guards/auth-jwt.guard'
+import { EntityNotFoundError } from 'typeorm'
+import { EntityNotFoundException } from '../core/errors'
 
 @Controller('diseases')
 @UseGuards(AuthJwtGuard)
@@ -27,8 +29,15 @@ export class DiseasesController {
     }
 
     @Get(':id')
-    public findOne(@Param('id') id: string): Promise<DiseaseDetailsDto> {
-        return this.diseasesService.findOne(id)
+    public async findOne(@Param('id') id: string): Promise<DiseaseDetailsDto> {
+        try {
+            return await this.diseasesService.findOne(id)
+        } catch (error) {
+            if (error instanceof EntityNotFoundError) {
+                throw new EntityNotFoundException('Disease', id)
+            }
+            throw error
+        }
     }
 
     @Get(':id/risks')

@@ -7,6 +7,8 @@ import { PaginationResponseDto } from '../core/pagination/dto/pagination-respons
 import { CreateEntityResponseDto } from '../core/dto/create-entity-response.dto'
 import { RiskDto } from './dto/risk.dto'
 import { AuthJwtGuard } from '../auth/guards/auth-jwt.guard'
+import { EntityNotFoundError } from 'typeorm'
+import { EntityNotFoundException } from '../core/errors'
 
 @Controller('risks')
 @UseGuards(AuthJwtGuard)
@@ -24,8 +26,15 @@ export class RisksController {
     }
 
     @Get(':id')
-    public findOne(@Param('id') id: string): Promise<RiskDto> {
-        return this.risksService.findOne(id)
+    public async findOne(@Param('id') id: string): Promise<RiskDto> {
+        try {
+            return await this.risksService.findOne(id)
+        } catch (error) {
+            if (error instanceof EntityNotFoundError) {
+                throw new EntityNotFoundException('Risk', id)
+            }
+            throw error
+        }
     }
 
     @Put(':id')
