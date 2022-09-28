@@ -1,38 +1,51 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# med-app-be
+Server application used to manage medical information like diseases, risks or symptoms.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### Prerequisites
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+In order to install project dependencies and run/build the app, please ensure that you have the following software installed:
+- Node.js v16.14.2 or later
+- NPM v8.5.0 or later
+- Docker
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+You may also need Nest CLI, so use the following command to install it:
+```
+npm i -g @nestjs/cli
 ```
 
-## Running the app
+You will find more details regarding the Node.js and NPM installation [here](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+
+### Project dependencies
+Run the following command to install the project dependencies:
+```
+npm ci 
+```
+#### Automated code formatting and linting
+
+ESLint and Prettier are used for code formatting and linting for better readability and maintainability. The tools are run on every Git commit, so it's required to enable Git hooks before development.
+
+Run the following command to enable Git Hooks:
+```
+npm run prepare
+```
+
+### Running the app
+
+The app requires docker or a local MySQL installation. If using a local MySQL database, see [configuration](#configuration) section for details.
+
+#### Docker
+There is a docker-compose.yml file for starting Docker.
+
+```
+docker-compose up
+```
+
+After running the app, you can stop the Docker container with
+```
+docker-compose down
+```
+
+Starting the app:
 
 ```bash
 # development
@@ -45,7 +58,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+### Test
 
 ```bash
 # unit tests
@@ -58,16 +71,24 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+Note that no automated tests are implemented yet.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### App environment
+- Default dev environment configuration can be found in `.dev.env` file.
 
-## Stay in touch
+### Configuration
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+The following environment variables are used for project configuration:
+- `DATABASE_USER` - database user login
+- `DATABASE_PASSWORD` - database user password
+- `DATABASE_HOST` - database host
+- `DATABASE_PORT` - database port
+- `DATABASE_NAME` - database name
+- `JWT_ACCESS_TOKEN_SECRET` - JWT access token secret
+- `JWT_ACCESS_TOKEN_EXPIRATION_TIME` - JWT access token expiration time
+- `JWT_REFRESH_TOKEN_SECRET` - JWT refresh token secret
+- `JWT_REFRESH_TOKEN_EXPIRATION_TIME` - JWT refresh token expiration time
 
-## License
+### Further development
 
-Nest is [MIT licensed](LICENSE).
+Please check [TODO file](TODO.md) to see the tasks.
