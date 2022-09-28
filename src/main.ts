@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { DataSource } from 'typeorm'
-import { initializeUsers } from './initializers/users.initializer'
+import { initializeDb } from './initializers'
 
 async function bootstrap(): Promise<void> {
     const app = await NestFactory.create(AppModule, { cors: true })
@@ -9,6 +9,6 @@ async function bootstrap(): Promise<void> {
     await app.listen(3000)
     const dataSource = app.get<DataSource>(DataSource)
 
-    await initializeUsers(dataSource)
+    await initializeDb(dataSource)
 }
 void bootstrap()

@@ -9,7 +9,7 @@ export class Symptom implements ISymptom {
     @Column({ unique: true })
     name: string
 
-    @Column()
+    @Column('varchar', { length: 1000 })
     description: string
 
     @CreateDateColumn()

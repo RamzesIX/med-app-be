@@ -10,7 +10,7 @@ export class Disease {
     @Column({ unique: true })
     name: string
 
-    @Column()
+    @Column('varchar', { length: 1000 })
     description: string
 
     @CreateDateColumn()
