@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { IRisksService } from './risks.service.types'
 import { InjectRepository } from '@nestjs/typeorm'
 import { In, Repository } from 'typeorm'
@@ -7,6 +7,7 @@ import { CreateEntityResponse } from '../core/core.types'
 import { IPaginationResponse } from '../core/pagination/pagination.types'
 import { buildPaginationResponse } from '../core/pagination/pagination.utils'
 import { IRisk, RiskPayload } from './risks.types'
+import { NotUniqueEntityException } from '../core/errors'
 
 @Injectable()
 export class RisksService implements IRisksService {
@@ -16,18 +17,25 @@ export class RisksService implements IRisksService {
     ) {}
 
     public async create({ name, description }: RiskPayload): Promise<CreateEntityResponse> {
-        console.debug('RisksService.create', name, description)
+        Logger.debug('RisksService:create', name, description)
+
+        const risk = await this.risksRepository.findOneBy({ name })
+
+        if (risk) {
+            throw new NotUniqueEntityException('Risk', name)
+        }
+
         const { id } = await this.risksRepository.save({
             name,
             description,
         })
 
-        console.debug(`RisksService.create entity ${id} has been created.`)
+        Logger.debug(`RisksService:create entity ${id} has been created.`)
         return { id }
     }
 
     public async findAll(offset: number, limit: number): Promise<IPaginationResponse<IRisk>> {
-        console.debug(`RisksService.findAll, offset:${offset}, limit:${limit}`)
+        Logger.debug(`RisksService:findAll, offset:${offset}, limit:${limit}`)
         const [data, total] = await this.risksRepository.findAndCount({
             skip: offset,
             take: limit,
@@ -39,28 +47,28 @@ export class RisksService implements IRisksService {
             },
         })
 
-        console.debug(`RisksService.findAll`, data, total)
+        Logger.debug(`RisksService:findAll done`)
 
         return buildPaginationResponse(data, total, offset, limit)
     }
 
     public async findOne(id: string): Promise<IRisk> {
-        console.debug(`RisksService.findOne id: ${id}`)
+        Logger.debug(`RisksService:findOne id: ${id}`)
         const risk = await this.risksRepository.findOneByOrFail({ id })
-        console.debug(`RisksService.findOne data: ${risk}`)
+        Logger.debug(`RisksService:findOne data: ${risk}`)
         return risk
     }
 
     public async update(id: string, { description, name }: RiskPayload): Promise<void> {
-        console.debug(`RisksService.update Id: ${id}, Description: ${description}, Name: ${name}`)
+        Logger.debug(`RisksService:update Id: ${id}, Description: ${description}, Name: ${name}`)
         await this.risksRepository.update(id, { description, name })
-        console.debug(`RisksService.update Risk ${id} has been updated.`)
+        Logger.debug(`RisksService:update Risk ${id} has been updated.`)
     }
 
     public async remove(id: string): Promise<void> {
-        console.debug(`RisksService.remove Id: ${id}`)
+        Logger.debug(`RisksService:remove Id: ${id}`)
         await this.risksRepository.delete(id)
-        console.debug(`RisksService.remove Risk: ${id} has been removed.`)
+        Logger.debug(`RisksService:remove Risk: ${id} has been removed.`)
     }
 
     /**

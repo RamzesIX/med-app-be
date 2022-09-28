@@ -7,6 +7,8 @@ import { PaginationResponseDto } from '../core/pagination/dto/pagination-respons
 import { CreateEntityResponseDto } from '../core/dto/create-entity-response.dto'
 import { SymptomDto } from './dto/symptom.dto'
 import { AuthJwtGuard } from '../auth/guards/auth-jwt.guard'
+import { EntityNotFoundError } from 'typeorm'
+import { EntityNotFoundException } from '../core/errors'
 
 @Controller('symptoms')
 @UseGuards(AuthJwtGuard)
@@ -24,8 +26,15 @@ export class SymptomsController {
     }
 
     @Get(':id')
-    public findOne(@Param('id') id: string): Promise<SymptomDto> {
-        return this.symptomsService.findOne(id)
+    public async findOne(@Param('id') id: string): Promise<SymptomDto> {
+        try {
+            return await this.symptomsService.findOne(id)
+        } catch (error) {
+            if (error instanceof EntityNotFoundError) {
+                throw new EntityNotFoundException('Symptom', id)
+            }
+            throw error
+        }
     }
 
     @Put(':id')

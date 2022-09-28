@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { CreateSymptomDto } from './dto/create-symptom.dto'
 import { UpdateSymptomDto } from './dto/update-symptom.dto'
 import { Symptom } from './entities/symptom.entity'
@@ -8,6 +8,7 @@ import { ISymptomsService } from './symptoms.service.types'
 import { IPaginationResponse } from '../core/pagination/pagination.types'
 import { buildPaginationResponse } from '../core/pagination/pagination.utils'
 import { ISymptom, SymptomPayload } from './symptoms.types'
+import { NotUniqueEntityException } from '../core/errors'
 
 @Injectable()
 export class SymptomsService implements ISymptomsService {
@@ -17,17 +18,24 @@ export class SymptomsService implements ISymptomsService {
     ) {}
 
     public async create({ name, description }: CreateSymptomDto): Promise<Pick<Symptom, 'id'>> {
-        console.debug('SymptomsService.create', name, description)
+        Logger.debug('SymptomsService:create', name, description)
+
+        const symptom = await this.symptomRepository.findOneBy({ name })
+
+        if (symptom) {
+            throw new NotUniqueEntityException('Symptom', name)
+        }
+
         const { id } = await this.symptomRepository.save({
             name,
             description,
         })
-        console.debug(`SymptomsService.create Symptom ${id} has been created.`)
+        Logger.debug(`SymptomsService:create Symptom ${id} has been created.`)
         return { id }
     }
 
     public async findAll(offset: number, limit: number): Promise<IPaginationResponse<ISymptom>> {
-        console.debug(`SymptomsService.findAll, offset:${offset}, limit:${limit}`)
+        Logger.debug(`SymptomsService:findAll, offset:${offset}, limit:${limit}`)
         const [data, total] = await this.symptomRepository.findAndCount({
             skip: offset,
             take: limit,
@@ -39,28 +47,28 @@ export class SymptomsService implements ISymptomsService {
             },
         })
 
-        console.debug(`SymptomsService.findAll`, data, total)
+        Logger.debug(`SymptomsService:findAll done`)
 
         return buildPaginationResponse(data, total, offset, limit)
     }
 
     public async findOne(id: string): Promise<ISymptom> {
-        console.debug(`SymptomsService.findOne id: ${id}`)
+        Logger.debug(`SymptomsService:findOne id: ${id}`)
         const symptom = await this.symptomRepository.findOneByOrFail({ id })
-        console.debug(`SymptomsService.findOne data: ${symptom}`)
+        Logger.debug(`SymptomsService:findOne data: ${symptom}`)
         return symptom
     }
 
     public async update(id: string, { description, name }: UpdateSymptomDto): Promise<void> {
-        console.debug(`SymptomsService.update Id: ${id}, Description: ${description}, Name: ${name}`)
+        Logger.debug(`SymptomsService:update Id: ${id}, Name: ${name}`)
         await this.symptomRepository.update(id, { description, name })
-        console.debug(`SymptomsService.update Symptom ${id} has been updated.`)
+        Logger.debug(`SymptomsService:update Symptom ${id} has been updated.`)
     }
 
     public async remove(id: string): Promise<void> {
-        console.debug(`SymptomsService.remove Id: ${id}`)
+        Logger.debug(`SymptomsService:remove Id: ${id}`)
         await this.symptomRepository.delete(id)
-        console.debug(`SymptomsService.remove Symptom: ${id} has been removed.`)
+        Logger.debug(`SymptomsService:remove Symptom: ${id} has been removed.`)
     }
 
     /**
