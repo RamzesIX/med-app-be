@@ -1,7 +1,5 @@
-import { Risk } from '../risks/entities/risk.entity'
-import { Symptom } from '../symptoms/entities/symptom.entity'
-import { RiskPayload } from '../risks/risks.types'
-import { SymptomPayload } from '../symptoms/symptoms.types'
+import { IRisk, RiskPayload } from '../risks/risks.types'
+import { ISymptom, SymptomPayload } from '../symptoms/symptoms.types'
 
 export interface IDisease {
     id: string
@@ -10,8 +8,8 @@ export interface IDisease {
 }
 
 export interface IDiseaseDetails extends IDisease {
-    risks: Risk[]
-    symptoms: Symptom[]
+    risks: IRisk[]
+    symptoms: ISymptom[]
 }
 
 export type DiseasePayload = Omit<IDisease, 'id'> & { risks: RiskPayload[]; symptoms: SymptomPayload[] }

@@ -7,9 +7,9 @@ export async function initializeUsers(dataSource: DataSource): Promise<void> {
     Logger.debug('initializeUsers: start')
 
     const userRepository = dataSource.getRepository<User>(User)
-    const users = await userRepository.find()
+    const usersLength = await userRepository.count()
 
-    if (users.length) {
+    if (usersLength) {
         Logger.debug('initializeUsers: users already initialized')
         Logger.debug('initializeUsers: done')
         return

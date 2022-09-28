@@ -10,7 +10,7 @@ export class Risk implements IEntity, IRisk {
     @Column({ unique: true })
     name: string
 
-    @Column()
+    @Column('varchar', { length: 1000 })
     description: string
 
     @CreateDateColumn()
