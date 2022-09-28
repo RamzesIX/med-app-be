@@ -76,7 +76,7 @@ export class DiseasesService implements IDiseasesService {
     }
 
     public async findSymptoms(diseaseId: string): Promise<ISymptom[]> {
-        console.debug(`DiseasesService:findSymptoms Disease Id: ${diseaseId}`)
+        Logger.debug(`DiseasesService:findSymptoms Disease Id: ${diseaseId}`)
         const { symptoms } = await this.diseasesRepository.findOneOrFail({
             where: { id: diseaseId },
             relations: {
