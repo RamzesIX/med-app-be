@@ -1,5 +1,5 @@
-# med-app-be
-Server application used to manage medical information like diseases, risks or symptoms.
+# [Showcase][NestJs] Server app
+Showcase app to check my personal code quality and architectural decisions. The repository contains the server application used to manage medical information like diseases, risks or symptoms. You can find and check the client app [here](https://github.com/RamzesIX/med-app-fe).
 
 ### Prerequisites
 
@@ -56,6 +56,14 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+```
+
+#### Default user credentials
+
+There are default user credentials you can use in order sign in into the app:
+```
+login: admin@test.com
+password: admin
 ```
 
 ### Test
